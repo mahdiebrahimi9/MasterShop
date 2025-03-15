@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Application.FileUtil.Interfaces;
 using MediatR;
 using Shop.Application._Shared;
+using Shop.Application._Shared.Exceptions;
 using Shop.Domain.ProductsAgg;
 
 namespace Shop.Application.ProductAgg.AddImage
@@ -12,11 +14,11 @@ namespace Shop.Application.ProductAgg.AddImage
     public class AddImageCmmandHandler : IRequestHandler<AddImageCommand>
     {
         private readonly IRepository<Product> _repository;
-        private readonly ImageUploader _imageUploader;
-        public AddImageCmmandHandler(IRepository<Product> repository, ImageUploader imageUploader)
+        private readonly IFileService _fileService;
+        public AddImageCmmandHandler(IRepository<Product> repository, IFileService fileService)
         {
             _repository = repository;
-            _imageUploader = imageUploader;
+            _fileService = fileService;
         }
 
         public async Task Handle(AddImageCommand request, CancellationToken cancellationToken)
@@ -24,11 +26,12 @@ namespace Shop.Application.ProductAgg.AddImage
             var product = await _repository.GetByIdAsync(request.ProductId);
             if (product == null)
             {
+                throw new InvalidApplicationDataException("ایدی وارد شده نامعتبر یا موجود نمی باشد");
             }
 
-            var folderPath = new ImageUploader(Directories.ProductImage);
-            _imageUploader.UploadImageAsync()
-            product.AddImage();
+            var imageName = await _fileService.SaveFileAndGenerateName(request.Image, Directories.ProductImage);
+            product.AddImage(new ProductIImage(imageName));
+            await _repository.Save();
         }
     }
 }

@@ -3,36 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Shop.Application._Shared;
 using Shop.Domain.ProductsAgg;
 
 namespace Shop.Infra.Persestent.Ef.UsersAgg
 {
-    public class ProductRepository:IRepository<Product>
+    public class ProductRepository : IRepository<Product>
     {
-        public Task<bool> AddAsync(Product entity)
+        private readonly ShopContext _shopContext;
+
+        public ProductRepository(ShopContext shopContext)
         {
-            throw new NotImplementedException();
+            _shopContext = shopContext;
         }
 
-        public Task<Product?> GetByIdAsync(long id)
+        public async Task<bool> AddAsync(Product entity)
         {
-            throw new NotImplementedException();
+            _shopContext.Products.Add(entity);
+            var count = await _shopContext.SaveChangesAsync();
+            return count > 0 ? true : false;
         }
 
-        public Task<Product?> RemoveUserById(long Id)
+        public async Task<Product?> GetByIdAsync(long id)
         {
-            throw new NotImplementedException();
+            return await _shopContext.Products.FirstOrDefaultAsync(f => f.Id == id);
         }
 
-        public Task<bool> UpdateAsync(Product entity)
+        public async Task<bool> UpdateAsync(Product entity)
         {
-            throw new NotImplementedException();
+            _shopContext.Products.Update(entity);
+            var count = await _shopContext.SaveChangesAsync();
+            return count > 0 ? true : false;
         }
 
-        public Task<int> Save()
+        public async Task<int> Save()
         {
-            throw new NotImplementedException();
+            return await _shopContext.SaveChangesAsync();
+        }
+
+        public async Task<Product?> RemoveById(long Id)
+        {
+            var product = await _shopContext.Products.FirstOrDefaultAsync(f => f.Id == Id);
+            _shopContext.Products.Remove(product);
+            await _shopContext.SaveChangesAsync();
+            return product;
         }
     }
 }

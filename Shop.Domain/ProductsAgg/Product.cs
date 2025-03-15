@@ -142,19 +142,19 @@ namespace Shop.Domain.ProductsAgg
             if (count < 1)
                 throw new InvalidDomainDataExcepion("تعداد وارد شده نامعتبر است");
 
-            if (totalRate < 1 && totalRate > 5)
+            if (totalRate < 1 || totalRate > 5)
                 throw new InvalidDomainDataExcepion("بازه وارد شده باید بین 5 و 1 باشد");
 
-            if (design < 0 && design > 100)
+            if (design < 0 || design > 100)
                 throw new InvalidDomainDataExcepion("بازه وارد شده باید بین 100 و 0 باشد");
 
-            if (purchaseValue < 0 && purchaseValue > 100)
+            if (purchaseValue < 0 || purchaseValue > 100)
                 throw new InvalidDomainDataExcepion("بازه وارد شده باید بین 100 و 0 باشد");
 
-            if (buildQuality < 0 && buildQuality > 100)
+            if (buildQuality < 0 || buildQuality > 100)
                 throw new InvalidDomainDataExcepion("بازه وارد شده باید بین 100 و 0 باشد");
 
-            if (featured < 0 && featured > 100)
+            if (featured < 0 || featured > 100)
                 throw new InvalidDomainDataExcepion("بازه وارد شده باید بین 100 و 0 باشد");
         }
     }
