@@ -13,14 +13,7 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="MediatR" Version="12.4.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ProductAgg\EditComment\" />
-    <Folder Include="ProductAgg\AddFaq\" />
-    <Folder Include="ProductAgg\EditFaq\" />
-    <Folder Include="ProductAgg\RemoveFaq\" />
-    <Folder Include="ProductAgg\RemoveComment\" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>
 
 </Project>

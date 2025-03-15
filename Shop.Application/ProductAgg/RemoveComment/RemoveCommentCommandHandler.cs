@@ -8,26 +8,25 @@ using Shop.Application._Shared;
 using Shop.Application._Shared.Exceptions;
 using Shop.Domain.ProductsAgg;
 
-namespace Shop.Application.ProductAgg.AddComment
+namespace Shop.Application.ProductAgg.RemoveComment
 {
-    public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand>
+    internal class RemoveCommentCommandHandler : IRequestHandler<RemoveCommentCommand>
     {
         private readonly IRepository<Product> _repository;
 
-        public AddCommentCommandHandler(IRepository<Product> repository)
+        public RemoveCommentCommandHandler(IRepository<Product> repository)
         {
             _repository = repository;
         }
 
-        public async Task Handle(AddCommentCommand request, CancellationToken cancellationToken)
+        public async Task Handle(RemoveCommentCommand request, CancellationToken cancellationToken)
         {
-            var product = await _repository.GetByIdAsync(request.ProductId);
-            if (product == null)
+            var comment = await _repository.GetByIdAsync(request.productId);
+            if (comment == null)
             {
                 throw new InvalidApplicationDataException("ایدی وارد شده نامعتبر یا موجود نمی باشد");
             }
-            product.AddComment(new Comment(request.Rate, request.UserName, request.UserComment));
-
+            comment.RemoveComment(request.productId);
             await _repository.Save();
         }
     }

@@ -5,21 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace Shop.Application.ProductAgg.AddComment
+namespace Shop.Application.ProductAgg.EditComment
 {
-    public class AddCommentCommand : IRequest
+    public class EditCommentCommand : IRequest
     {
-        public AddCommentCommand(int rate, string userName, string userComment, long productId)
+        public EditCommentCommand(long productId, int rate, string userName, string userComment)
         {
+            ProductId = productId;
             Rate = rate;
             UserName = userName;
             UserComment = userComment;
-            ProductId = productId;
         }
-        public long ProductId { get;  set; }
+        public long ProductId { get; set; }
         public int Rate { get; set; }
         public string UserName { get; set; }
         public string UserComment { get; set; }
     }
-
 }

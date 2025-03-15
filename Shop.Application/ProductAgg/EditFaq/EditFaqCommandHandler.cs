@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 using MediatR;
 using Shop.Application._Shared;
 using Shop.Application._Shared.Exceptions;
+using Shop.Application.ProductAgg.Edit;
 using Shop.Domain.ProductsAgg;
 
-namespace Shop.Application.ProductAgg.AddComment
+namespace Shop.Application.ProductAgg.EditFaq
 {
-    public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand>
+    public class EditFaqCommandHandler : IRequestHandler<EditFaqCommand>
     {
         private readonly IRepository<Product> _repository;
 
-        public AddCommentCommandHandler(IRepository<Product> repository)
+        public EditFaqCommandHandler(IRepository<Product> repository)
         {
             _repository = repository;
         }
 
-        public async Task Handle(AddCommentCommand request, CancellationToken cancellationToken)
+        public async Task Handle(EditFaqCommand request, CancellationToken cancellationToken)
         {
             var product = await _repository.GetByIdAsync(request.ProductId);
             if (product == null)
             {
                 throw new InvalidApplicationDataException("ایدی وارد شده نامعتبر یا موجود نمی باشد");
             }
-            product.AddComment(new Comment(request.Rate, request.UserName, request.UserComment));
-
+            product.EditFaq(request.ProductId, new Faq(request.Question, request.UserName));
             await _repository.Save();
         }
     }
