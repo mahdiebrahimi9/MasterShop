@@ -27,7 +27,7 @@ namespace Shop.Application.ProductAgg.EditFaq
             {
                 throw new InvalidApplicationDataException("ایدی وارد شده نامعتبر یا موجود نمی باشد");
             }
-            product.EditFaq(request.ProductId, new Faq(request.Question, request.UserName));
+            product.EditFaq(request.FaqId, new Faq(request.Question, request.UserName));
             await _repository.Save();
         }
     }

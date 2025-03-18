@@ -17,6 +17,7 @@ namespace Shop.Infra.Persestent.Ef
         public DbSet<Product> Products { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Faq> Faqs { get; set; }
+        public DbSet<Answer> Answers { get; set; }
         public DbSet<ProductIImage> ProductIImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -13,23 +13,28 @@ namespace Shop.Application.ProductAgg.AddAnswer
 {
     public class AddAnswerCommandHandler : IRequestHandler<AddAnswerCommand>
     {
-        private readonly IRepository<Faq> _faqRepository;
+        private readonly IRepository<Product> _repository;
 
-        public AddAnswerCommandHandler(IRepository<Faq> faqRepository)
+        public AddAnswerCommandHandler(IRepository<Product> repository)
         {
-            _faqRepository = faqRepository;
+            _repository = repository;
         }
 
         public async Task Handle(AddAnswerCommand request, CancellationToken cancellationToken)
         {
-            var faq = await _faqRepository.GetByIdAsync(request.FaqId);
+            var product = await _repository.GetByIdAsync(request.ProductId);
+            if (product == null)
+            {
+                throw new InvalidApplicationDataException("محصول وارد شده نامعتبر یا موجود نمی‌باشد");
+            }
+
+            var faq = product.Faqs.FirstOrDefault(f => f.Id == request.FaqId);
             if (faq == null)
             {
-                throw new InvalidApplicationDataException("ایدی وارد شده نامعتبر یا موجود نمی باشد");
+                throw new InvalidApplicationDataException("ایدی سوال وارد شده نامعتبر یا موجود نمی‌باشد");
             }
-            faq.Answer.Add(new Answer(request.AnswerFaq));
-            await _faqRepository.Save();
-
+            faq.AddAnswer(new Answer(request.AnswerFaq));
+            await _repository.Save();
         }
     }
 }

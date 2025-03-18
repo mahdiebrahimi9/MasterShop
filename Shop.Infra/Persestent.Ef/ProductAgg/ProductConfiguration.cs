@@ -15,6 +15,7 @@ namespace Shop.Infra.Persestent.Ef.UsersAgg
         {
             builder.ToTable("Products", "Product");
 
+
             builder.OwnsOne(f => f.ProductPrice);
 
             builder.OwnsOne(f => f.ProductDiscount);
@@ -28,11 +29,16 @@ namespace Shop.Infra.Persestent.Ef.UsersAgg
             {
                 option.ToTable("Faqs", "Product");
 
+                option.HasKey(faq => faq.Id);
+
                 option.OwnsMany(faq => faq.Answer, answersOption =>
                 {
                     answersOption.ToTable("Answers", "Faq");
+
+                    answersOption.HasKey(answer => answer.AnswerId);
                 });
             });
+
 
             builder.OwnsMany(f => f.Images, option =>
             {

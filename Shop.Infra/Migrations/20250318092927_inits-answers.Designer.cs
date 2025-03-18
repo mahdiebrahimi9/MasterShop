@@ -12,8 +12,8 @@ using Shop.Infra.Persestent.Ef;
 namespace Shop.Infra.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20250315195549_init")]
-    partial class init
+    [Migration("20250318092927_inits-answers")]
+    partial class initsanswers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -126,9 +126,6 @@ namespace Shop.Infra.Migrations
 
                     b.OwnsMany("Shop.Domain.ProductsAgg.Faq", "Faqs", b1 =>
                         {
-                            b1.Property<long>("ProductId")
-                                .HasColumnType("bigint");
-
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bigint");
@@ -138,6 +135,9 @@ namespace Shop.Infra.Migrations
                             b1.Property<DateTime>("CreationDate")
                                 .HasColumnType("datetime2");
 
+                            b1.Property<long>("ProductId")
+                                .HasColumnType("bigint");
+
                             b1.Property<string>("Question")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
@@ -146,37 +146,40 @@ namespace Shop.Infra.Migrations
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.HasKey("ProductId", "Id");
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("ProductId");
 
                             b1.ToTable("Faqs", "Product");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProductId");
 
-                            b1.OwnsMany("Shop.Domain.ProductsAgg.ValueObjects.Answer", "Answer", b2 =>
+                            b1.OwnsMany("Shop.Domain.ProductsAgg.Answer", "Answer", b2 =>
                                 {
-                                    b2.Property<long>("FaqProductId")
-                                        .HasColumnType("bigint");
-
-                                    b2.Property<long>("FaqId")
-                                        .HasColumnType("bigint");
-
-                                    b2.Property<int>("Id")
+                                    b2.Property<long>("AnswerId")
                                         .ValueGeneratedOnAdd()
-                                        .HasColumnType("int");
+                                        .HasColumnType("bigint");
 
-                                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b2.Property<int>("Id"));
+                                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b2.Property<long>("AnswerId"));
 
                                     b2.Property<string>("AnswerFaq")
                                         .IsRequired()
                                         .HasColumnType("nvarchar(max)");
 
-                                    b2.HasKey("FaqProductId", "FaqId", "Id");
+                                    b2.Property<long>("FaqId")
+                                        .HasColumnType("bigint");
+
+                                    b2.HasKey("AnswerId");
+
+                                    b2.HasIndex("FaqId");
 
                                     b2.ToTable("Answers", "Faq");
 
-                                    b2.WithOwner()
-                                        .HasForeignKey("FaqProductId", "FaqId");
+                                    b2.WithOwner("Faq")
+                                        .HasForeignKey("FaqId");
+
+                                    b2.Navigation("Faq");
                                 });
 
                             b1.Navigation("Answer");

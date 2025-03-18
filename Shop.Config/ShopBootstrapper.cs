@@ -27,7 +27,7 @@ namespace Shop.Config
             service.AddScoped<IRepository<Product>, ProductRepository>();
             service.AddScoped<IRepository<Faq>, FaqRepository>();
             service.AddScoped<IFileService, FileService>();
-
+            service.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
 
             service.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProductCommandHandler).Assembly));

@@ -27,7 +27,7 @@ namespace Shop.Application.ProductAgg.EditComment
             {
                 throw new InvalidApplicationDataException("ایدی وارد شده نامعتبر یا موجود نمی باشد");
             }
-            productComment.EditComment(request.ProductId, new Comment(request.Rate, request.UserComment, request.UserName));
+            productComment.EditComment(request.CommentId, new Comment(request.Rate, request.UserName, request.UserComment));
             await _commentRepository.Save();
         }
     }

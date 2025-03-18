@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Domain;
-using Shop.Domain.ProductsAgg.ValueObjects;
 using Test.Domain.Shared.Exceptions;
 
 namespace Shop.Domain.ProductsAgg
@@ -13,6 +12,7 @@ namespace Shop.Domain.ProductsAgg
     {
         public Faq(string question, string userName)
         {
+            Guard(question, userName);
             Question = question;
             UserName = userName;
             Answer = new List<Answer>();
@@ -22,6 +22,12 @@ namespace Shop.Domain.ProductsAgg
         public string Question { get; private set; }
         public List<Answer> Answer { get; private set; }
         public string UserName { get; private set; }
+
+        public void AddAnswer(Answer answer)
+        {
+            answer.AnswerId = Id;
+            Answer.Add(answer);
+        }
 
         private void Guard(string question, string userName)
         {

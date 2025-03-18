@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Shop.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class initsansw : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -86,7 +86,7 @@ namespace Shop.Infra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Faqs", x => new { x.ProductId, x.Id });
+                    table.PrimaryKey("PK_Faqs", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Faqs_Products_ProductId",
                         column: x => x.ProductId,
@@ -123,23 +123,34 @@ namespace Shop.Infra.Migrations
                 schema: "Faq",
                 columns: table => new
                 {
-                    FaqProductId = table.Column<long>(type: "bigint", nullable: false),
-                    FaqId = table.Column<long>(type: "bigint", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    AnswerId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AnswerFaq = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AnswerFaq = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FaqId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Answers", x => new { x.FaqProductId, x.FaqId, x.Id });
+                    table.PrimaryKey("PK_Answers", x => x.AnswerId);
                     table.ForeignKey(
-                        name: "FK_Answers_Faqs_FaqProductId_FaqId",
-                        columns: x => new { x.FaqProductId, x.FaqId },
+                        name: "FK_Answers_Faqs_FaqId",
+                        column: x => x.FaqId,
                         principalSchema: "Product",
                         principalTable: "Faqs",
-                        principalColumns: new[] { "ProductId", "Id" },
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answers_FaqId",
+                schema: "Faq",
+                table: "Answers",
+                column: "FaqId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Faqs_ProductId",
+                schema: "Product",
+                table: "Faqs",
+                column: "ProductId");
         }
 
         /// <inheritdoc />
