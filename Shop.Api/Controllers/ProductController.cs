@@ -12,6 +12,10 @@ using Shop.Application.ProductAgg.EditFaq;
 using Shop.Application.ProductAgg.Remove;
 using Shop.Application.ProductAgg.RemoveComment;
 using Shop.Application.ProductAgg.RemoveFaq;
+using Shop.Query.Products.GetCommentList;
+using Shop.Query.Products.GetFaqList;
+using Shop.Query.Products.GetProductById;
+using Shop.Query.Products.GetProductList;
 
 namespace Shop.Api.Controllers
 {
@@ -24,6 +28,21 @@ namespace Shop.Api.Controllers
         public ProductController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult> GetProductList()
+        {
+            var query = await _mediator.Send(new GetProductListQuery());
+            return Ok(query);
+        }
+
+        [HttpGet("[action]/{productId:long}")]
+        public async Task<ActionResult> GetProductById(long productId)
+        {
+
+            var query = await _mediator.Send(new GetProductByIdQuery(productId));
+            return Ok(query);
         }
 
         [HttpPost("[action]")]
@@ -48,6 +67,13 @@ namespace Shop.Api.Controllers
             return Ok();
         }
 
+        [HttpGet("[action]/{productId:long}")]
+        public async Task<ActionResult> GetCommentListByProductId(long productId)
+        {
+            var query = await _mediator.Send(new GetCommentListQuery(productId));
+            return Ok(query);
+        }
+
         [HttpPost("[action]")]
         public async Task<ActionResult> AddComment(AddCommentCommand command)
         {
@@ -67,6 +93,13 @@ namespace Shop.Api.Controllers
         {
             await _mediator.Send(new RemoveCommentCommand(commentId));
             return Ok();
+        }
+
+        [HttpGet("[action]/{productId:long}")]
+        public async Task<ActionResult> GetFaqListByProductId(long productId)
+        {
+            var query = await _mediator.Send(new GetFaqListQuery(productId));
+            return Ok(query);
         }
 
         [HttpPost("[action]")]

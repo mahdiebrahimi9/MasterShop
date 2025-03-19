@@ -5,6 +5,7 @@ namespace Shop.Application.ProductAgg.AddImage
 {
     public class AddImageCommand:IRequest
     {
+        public AddImageCommand() { }
         public AddImageCommand(long productId,  IFormFile image)
         {
             ProductId = productId;

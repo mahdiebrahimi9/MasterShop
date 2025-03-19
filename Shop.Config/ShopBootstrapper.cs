@@ -14,9 +14,11 @@ using Shop.Application._Shared;
 using Shop.Application.ProductAgg.AddComment;
 using Shop.Application.ProductAgg.Create;
 using Shop.Domain.ProductsAgg;
+using Shop.Infra.Persestent.Dapper;
 using Shop.Infra.Persestent.Ef;
 using Shop.Infra.Persestent.Ef.ProductAgg.Faqs;
 using Shop.Infra.Persestent.Ef.UsersAgg;
+using Shop.Query.Products.GetProductList;
 
 namespace Shop.Config
 {
@@ -31,11 +33,17 @@ namespace Shop.Config
 
 
             service.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProductCommandHandler).Assembly));
+            service.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetProductListQueryHandler).Assembly));
 
             service.AddValidatorsFromAssembly(typeof(AddCommentCommandValidator).Assembly);
 
             service.AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddCommentCommandValidator>());
+
+            service.AddSingleton<DapperContext>(option =>
+            {
+                return new DapperContext(connectionString);  
+            });
 
             service.AddDbContext<ShopContext>(option =>
             {
