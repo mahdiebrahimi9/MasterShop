@@ -14,9 +14,11 @@ using Shop.Application._Shared;
 using Shop.Application.ProductAgg.AddComment;
 using Shop.Application.ProductAgg.Create;
 using Shop.Domain.ProductsAgg;
+using Shop.Domain.UserAgg;
 using Shop.Infra.Persestent.Dapper;
 using Shop.Infra.Persestent.Ef;
 using Shop.Infra.Persestent.Ef.ProductAgg.Faqs;
+using Shop.Infra.Persestent.Ef.UserAgg;
 using Shop.Infra.Persestent.Ef.UsersAgg;
 using Shop.Query.Products.GetProductList;
 
@@ -28,6 +30,7 @@ namespace Shop.Config
         {
             service.AddScoped<IRepository<Product>, ProductRepository>();
             service.AddScoped<IRepository<Faq>, FaqRepository>();
+            service.AddScoped<IRepository<User>, UserRepository>();
             service.AddScoped<IFileService, FileService>();
             service.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
@@ -42,7 +45,7 @@ namespace Shop.Config
 
             service.AddSingleton<DapperContext>(option =>
             {
-                return new DapperContext(connectionString);  
+                return new DapperContext(connectionString);
             });
 
             service.AddDbContext<ShopContext>(option =>

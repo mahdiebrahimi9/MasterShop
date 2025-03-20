@@ -9,5 +9,6 @@ namespace Shop.Application._Shared
     public static class Directories
     {
         public  const string ProductImage = "wwwroot/ProductImage";
+        public  const string UserProfile = "wwwroot/UserProfile";
     }
 }
