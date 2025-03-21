@@ -16,11 +16,13 @@ using Shop.Query.Products.GetCommentList;
 using Shop.Query.Products.GetFaqList;
 using Shop.Query.Products.GetProductById;
 using Shop.Query.Products.GetProductList;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Shop.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;

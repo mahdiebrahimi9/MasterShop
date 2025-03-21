@@ -11,8 +11,10 @@ namespace Shop.Domain.UserAgg
 {
     public class User : AggregateRoot
     {
-        private User (){}
-        public User(string userName, string email, string phone, string nationalCode, string profileImage, string bankCardNumber)
+        private User( )
+        {
+        }
+        public User(string userName, string email, string phone, string nationalCode, string profileImage, string bankCardNumber, string password)
         {
             Guard(userName, email, phone, nationalCode, bankCardNumber);
             UserName = userName;
@@ -21,11 +23,13 @@ namespace Shop.Domain.UserAgg
             NationalCode = nationalCode;
             ProfileImage = profileImage;
             BankCardNumber = bankCardNumber;
+            Password = password;
             Addresses = new List<UserAddress>();
         }
 
         public string UserName { get; private set; }
         public string Email { get; private set; }
+        public string Password { get; private set; }
         public string Phone { get; private set; }
         public string NationalCode { get; private set; }
         public string ProfileImage { get; private set; }
@@ -40,6 +44,11 @@ namespace Shop.Domain.UserAgg
             NationalCode = nationalCode;
             ProfileImage = profileImage;
             BankCardNumber = bankCardNumber;
+        }
+
+        public static User RegisterUser(string password, string userName)
+        {
+            return new User(userName, "", "", "", "", "", password);
         }
 
         public void AddAddress(UserAddress address)

@@ -20,6 +20,7 @@ using Shop.Infra.Persestent.Ef;
 using Shop.Infra.Persestent.Ef.ProductAgg.Faqs;
 using Shop.Infra.Persestent.Ef.UserAgg;
 using Shop.Infra.Persestent.Ef.UsersAgg;
+using Shop.Query._Shared;
 using Shop.Query.Products.GetProductList;
 
 namespace Shop.Config
@@ -33,7 +34,7 @@ namespace Shop.Config
             service.AddScoped<IRepository<User>, UserRepository>();
             service.AddScoped<IFileService, FileService>();
             service.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-
+            service.AddScoped<GenerateJwtTokenHandle>();
 
             service.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProductCommandHandler).Assembly));
             service.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetProductListQueryHandler).Assembly));

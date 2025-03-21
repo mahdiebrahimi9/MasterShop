@@ -24,8 +24,9 @@ namespace Shop.Application.UserAgg.Create
         {
             var profileImage =
                 await _fileService.SaveFileAndGenerateName(request.ProfileImage, Directories.UserProfile);
+            var hashPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
             var user = new User(request.UserName, request.Email, request.Phone, request.NationalCode, profileImage,
-                request.BankCardNumber);
+                request.BankCardNumber, hashPassword);
             await _userRepository.AddAsync(user);
             await _userRepository.Save();
         }
