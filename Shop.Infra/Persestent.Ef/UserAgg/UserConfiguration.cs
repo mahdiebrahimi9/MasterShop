@@ -20,6 +20,11 @@ namespace Shop.Infra.Persestent.Ef.UserAgg
                 option.ToTable("Addresses", "User");
 
             });
+
+            builder.OwnsOne(f => f.RefreshToken, option =>
+            {
+                option.ToTable("RefreshTokens", "User");
+            });
         }
     }
 }

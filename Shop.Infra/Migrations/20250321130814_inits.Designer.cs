@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Infra.Persestent.Ef;
 
@@ -11,9 +12,11 @@ using Shop.Infra.Persestent.Ef;
 namespace Shop.Infra.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20250321130814_inits")]
+    partial class inits
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -296,29 +299,6 @@ namespace Shop.Infra.Migrations
 
             modelBuilder.Entity("Shop.Domain.UserAgg.User", b =>
                 {
-                    b.OwnsOne("Shop.Domain.UserAgg.RefreshToken", "RefreshToken", b1 =>
-                        {
-                            b1.Property<long>("UserId")
-                                .HasColumnType("bigint");
-
-                            b1.Property<DateTime>("CreatedAt")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<DateTime>("ExpiryDate")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("Token")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("UserId");
-
-                            b1.ToTable("RefreshTokens", "User");
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
                     b.OwnsMany("Shop.Domain.UserAgg.UserAddress", "Addresses", b1 =>
                         {
                             b1.Property<long>("UserId")
@@ -363,6 +343,38 @@ namespace Shop.Infra.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
+                        });
+
+                    b.OwnsOne("Shop.Domain.UserAgg.RefreshToken", "RefreshToken", b1 =>
+                        {
+                            b1.Property<long>("UserId1")
+                                .HasColumnType("bigint");
+
+                            b1.Property<DateTime>("CreatedAt")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<DateTime>("CreationDate")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<DateTime>("ExpiryDate")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<long>("Id")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("Token")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("UserId")
+                                .HasColumnType("int");
+
+                            b1.HasKey("UserId1");
+
+                            b1.ToTable("RefreshTokens", "User");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId1");
                         });
 
                     b.Navigation("Addresses");

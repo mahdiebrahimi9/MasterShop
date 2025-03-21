@@ -36,5 +36,19 @@ namespace Shop.Api.Controllers
                 return Unauthorized(ex.Message);
             }
         }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> RefreshToken([FromBody] ValidateRefreshTokenQuery query)
+        {
+            try
+            {
+                var response = await _mediator.Send(query);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+        }
     }
 }

@@ -35,6 +35,8 @@ namespace Shop.Config
             service.AddScoped<IFileService, FileService>();
             service.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             service.AddScoped<GenerateJwtTokenHandle>();
+            service.AddScoped<GenerateRefreshTokenHandle>();
+
 
             service.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProductCommandHandler).Assembly));
             service.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetProductListQueryHandler).Assembly));

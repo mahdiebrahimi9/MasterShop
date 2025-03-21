@@ -35,6 +35,7 @@ namespace Shop.Domain.UserAgg
         public string ProfileImage { get; private set; }
         public string BankCardNumber { get; private set; }
         public List<UserAddress> Addresses { get; private set; }
+        public RefreshToken RefreshToken { get; private set; }
         public void Edit(string userName, string email, string phone, string nationalCode, string profileImage, string bankCardNumber)
         {
             Guard(userName, email, phone, nationalCode, bankCardNumber);
